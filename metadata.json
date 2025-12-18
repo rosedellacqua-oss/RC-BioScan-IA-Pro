@@ -1,0 +1,7 @@
+{
+  "name": "RC-BioScan IA PRO",
+  "description": "Sistema premium de diagnóstico e mapeamento capilar inteligente com IA.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
