@@ -63,7 +63,7 @@ export async function analyzeCapillaryData(
       systemInstruction: { parts: [{ text: systemInstruction }] }
     };
 
-    const response = await fetch('/api/analyze', {
+    const response = await fetch('/api/analisar', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
