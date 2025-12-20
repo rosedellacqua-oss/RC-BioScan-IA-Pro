@@ -1,5 +1,7 @@
 export default async function handler(req, res) {
-  const API_KEY = process.env.VITE_GEMINI_API_KEY;
+  // ATENÇÃO: Verifique se entre as aspas abaixo está a sua chave REAL (aquela comprida)
+  const API_KEY = "AIzaSyCi509PAtDLnH3hXGR7bYrGbW3B92EBHYg"; 
+  
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
   if (req.method !== 'POST') {
