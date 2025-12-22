@@ -1,7 +1,7 @@
 import { AnamneseData, CapillaryImage, ArsenalConfig, UserMode } from "../types";
 
-const MAX_DIMENSION = 900; 
-const JPEG_QUALITY = 0.45; 
+const MAX_DIMENSION = 800; 
+const JPEG_QUALITY = 0.4; 
 
 async function compressImageToJpeg(base64Str: string): Promise<string> {
   return new Promise((resolve) => {
@@ -10,7 +10,6 @@ async function compressImageToJpeg(base64Str: string): Promise<string> {
       try {
         let width = img.width;
         let height = img.height;
-
         if (width > height) {
           if (width > MAX_DIMENSION) {
             height = Math.round((height * MAX_DIMENSION) / width);
@@ -22,31 +21,20 @@ async function compressImageToJpeg(base64Str: string): Promise<string> {
             height = MAX_DIMENSION;
           }
         }
-
         const canvas = document.createElement("canvas");
         canvas.width = width;
         canvas.height = height;
         const ctx = canvas.getContext("2d");
-
         if (!ctx) return resolve(base64Str);
-
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = "high";
         ctx.drawImage(img, 0, 0, width, height);
-
         resolve(canvas.toDataURL("image/jpeg", JPEG_QUALITY));
-      } catch {
-        resolve(base64Str);
-      }
+      } catch { resolve(base64Str); }
     };
     img.onerror = () => resolve(base64Str);
     img.src = base64Str;
   });
-}
-
-function toInlineJpegData(dataUrl: string) {
-  const parts = dataUrl.split(",");
-  return parts.length > 1 ? parts[1] : dataUrl;
 }
 
 export async function analyzeCapillaryData(
@@ -65,7 +53,7 @@ export async function analyzeCapillaryData(
   const systemInstruction = `
     ACT AS AN EXPERT TRICHOLOGIST. 
     ALWAYS RESPOND IN PORTUGUESE (BRAZIL).
-    FORMAT: PLAIN TEXT, NO MARKDOWN, USE SEPARATORS.
+    FORMAT: PLAIN TEXT, NO MARKDOWN, USE SEPARATORS: ────────────────────────────────
     FOOTER: RC-BioScan IA Pro - Developed by Rosemary Costa.
   `;
 
@@ -74,22 +62,22 @@ export async function analyzeCapillaryData(
     COMPLAINTS: ${(anamnese.complaints || []).join(", ")}
     HISTORY: ${(anamnese.chemicalHistory || []).join(", ")}
     IMAGES: ${compressedImages.map((i) => i.zone).join(", ")}
-    INSTRUCTIONS: Generate a professional 4-week hair schedule in Portuguese.
   `;
 
   const parts: any[] = [{ text: prompt }];
   for (const img of compressedImages) {
+    const b64Data = img.base64.split(",")[1];
     parts.push({
-      inlineData: {
-        mimeType: "image/jpeg",
-        data: toInlineJpegData(img.base64),
+      inline_data: {
+        mime_type: "image/jpeg",
+        data: b64Data,
       },
     });
   }
 
   const payload = {
     contents: [{ role: "user", parts }],
-    systemInstruction: { parts: [{ text: systemInstruction }] },
+    system_instruction: { parts: [{ text: systemInstruction }] },
   };
 
   try {
@@ -99,11 +87,12 @@ export async function analyzeCapillaryData(
       body: JSON.stringify(payload),
     });
 
-    if (!response.ok) throw new Error("Connection failed");
     const result = await response.json();
-    return result?.candidates?.[0]?.content?.parts?.[0]?.text || "Empty response";
-  } catch (error) {
-    console.error("System Error:", error);
-    throw new Error("Analysis failed. Please try with one photo.");
+    if (!response.ok) throw new Error(result.error?.message || "API Error");
+    
+    return result?.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
+  } catch (error: any) {
+    console.error("Analysis Error:", error);
+    throw new Error("Diagnosis failed: " + error.message);
   }
 }
