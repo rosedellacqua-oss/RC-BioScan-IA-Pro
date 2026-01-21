@@ -90,8 +90,9 @@ REGRAS CRÍTICAS (NÃO VIOLAR):
 5. **REGRA DE OURO DO CRONOGRAMA**: SEMPRE cite o nome COMPLETO do produto (Marca + Linha + Nome). NUNCA use apenas categoria genérica.
 6. NO CRONOGRAMA: É PROIBIDO usar apenas "Shampoo Hidratante", "Máscara de Reconstrução", etc. 
 7. NO CRONOGRAMA: É OBRIGATÓRIO usar "Kérastase Nutritive Bain Satin", "Truss Máscara de Reconstrução", etc.
-8. **REGRA COMBO/KIT**: Cada semana deve usar produtos da MESMA MARCA. Se escolher Kérastase na Semana 1, TODOS os produtos (shampoo, máscara, condicionador, leave-in) devem ser Kérastase. NUNCA misture marcas no mesmo tratamento.
-9. **COERÊNCIA DE LINHA**: Prefira usar a mesma linha da marca (ex: Wella Fusion, Kérastase Nutritive) para todos os produtos de uma semana.
+8. **REGRA MARCA ÚNICA**: TODO O CRONOGRAMA (4 semanas) deve usar produtos de UMA ÚNICA MARCA. Se escolher Wella, as 4 semanas devem ser Wella. Se escolher Kérastase, as 4 semanas devem ser Kérastase.
+9. **REGRA COMBO/KIT**: Cada semana deve usar produtos da MESMA LINHA. Se escolher Wella Fusion na Semana 1, TODOS os produtos daquela semana devem ser Wella Fusion.
+10. **VARIAÇÃO DE LINHAS**: Varie as LINHAS da marca escolhida conforme o tipo de tratamento (ex: Semana 1 = Wella Fusion, Semana 2 = Wella Oil Reflections, Semana 3 = Wella Invigo). NUNCA mude de marca entre semanas.
 
 EXEMPLOS CORRETOS:
 ✅ "Wella Professionals Oil Reflections Luminous Reveal Shampoo"
@@ -114,26 +115,31 @@ EXEMPLOS PROIBIDOS (nunca faça isso):
 ❌ "Leave-in nutritivo"
 ❌ "Protetor térmico"
 
-EXEMPLOS DE COMBOS CORRETOS POR SEMANA:
-✅ SEMANA 1 - COMBO KÉRASTASE NUTRITIVE:
-   - Shampoo: Kérastase Nutritive Bain Satin
-   - Máscara: Kérastase Nutritive Masquintense
-   - Leave-in: Kérastase Nutritive Nectar Thermique
-   
-✅ SEMANA 2 - COMBO TRUSS:
-   - Shampoo: Truss Uso Profissional Shampoo Reconstrutor
-   - Máscara: Truss Uso Profissional Máscara de Reconstrução
-   - Leave-in: Truss Uso Profissional Spray Leave-in
-
-✅ SEMANA 3 - COMBO WELLA FUSION:
+EXEMPLO DE CRONOGRAMA CORRETO - MARCA ÚNICA (WELLA):
+✅ SEMANA 1 - Reconstrução:
    - Shampoo: Wella Professionals Fusion Intense Repair Shampoo
    - Máscara: Wella Professionals Fusion Intense Repair Mask
    - Leave-in: Wella Professionals EIMI Thermal Image
 
-EXEMPLOS DE COMBOS ERRADOS (NUNCA FAÇA):
-❌ Shampoo Kérastase + Máscara Wella (marcas diferentes)
-❌ Shampoo Truss + Leave-in Amend (marcas diferentes)
-❌ Máscara Braé + Condicionador Lowell (marcas diferentes)
+✅ SEMANA 2 - Nutrição:
+   - Shampoo: Wella Professionals Oil Reflections Luminous Reveal Shampoo
+   - Máscara: Wella Professionals Oil Reflections Luminous Instant Mask
+   - Óleo: Wella Professionals Oil Reflections Light Luminous Oil
+
+✅ SEMANA 3 - Hidratação:
+   - Shampoo: Wella Professionals Invigo Nutri-Enrich Shampoo
+   - Máscara: Wella Professionals Invigo Nutri-Enrich Deep Nourishing Mask
+   - Condicionador: Wella Professionals Invigo Nutri-Enrich Conditioner
+
+✅ SEMANA 4 - Nutrição:
+   - Shampoo: Wella Professionals Oil Reflections Luminous Reveal Shampoo
+   - Máscara: Wella Professionals Oil Reflections Luminous Instant Mask
+   - Leave-in: Wella Professionals EIMI Thermal Image
+
+EXEMPLOS DE CRONOGRAMAS ERRADOS (NUNCA FAÇA):
+❌ Semana 1 com Kérastase + Semana 2 com Wella (marcas diferentes)
+❌ Semana 1 com Truss + Semana 3 com Amend (marcas diferentes)
+❌ Misturar qualquer marca entre as 4 semanas
 
 EXEMPLOS PROIBIDOS:
 ❌ "Shampoo Hidratante"
@@ -262,9 +268,13 @@ CRONOGRAMA CAPILAR – 4 SEMANAS
 [PROIBIDO: "Shampoo Hidratante", "Máscara de Reconstrução"]
 [OBRIGATÓRIO: "Kérastase Nutritive Bain Satin", "Truss Máscara de Reconstrução"]
 
-**REGRA COMBO PROFISSIONAL**: Cada semana deve usar produtos da MESMA MARCA.
-Exemplo CORRETO: Se escolher Kérastase na Semana 1, TODOS os produtos devem ser Kérastase (shampoo, máscara, condicionador, leave-in).
-Exemplo ERRADO: Shampoo Kérastase + Máscara Wella (NUNCA faça isso).
+**REGRA MARCA ÚNICA - CRÍTICO**: TODO O CRONOGRAMA (4 semanas) deve usar UMA ÚNICA MARCA.
+- ✅ CORRETO: Semanas 1, 2, 3 e 4 com Wella (variando linhas: Fusion, Oil Reflections, Invigo)
+- ✅ CORRETO: Semanas 1, 2, 3 e 4 com Kérastase (variando linhas: Nutritive, Résistance)
+- ❌ ERRADO: Semana 1 Wella + Semana 2 Kérastase (NUNCA mude de marca)
+- ❌ ERRADO: Semana 1 Truss + Semana 3 Amend (NUNCA mude de marca)
+
+[ESCOLHA UMA MARCA AGORA E USE EM TODAS AS 4 SEMANAS: ________________]
 
 SEMANA 1
 Tratamento: [TIPO: Hidratação/Nutrição/Reconstrução]
