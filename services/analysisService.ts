@@ -253,6 +253,7 @@ RESUMO DO DIAGNÓSTICO COSMÉTICO
 MAPEAMENTO POR ZONAS
 ────────────────────────────────
 [Liste OBJETIVAMENTE cada zona (${zones}). Uma linha por zona com observação direta]
+[IMPORTANTE: Não repita a mesma zona. Cada zona deve aparecer apenas UMA vez]
 
 ALERTAS E RISCOS
 ────────────────────────────────
@@ -274,47 +275,42 @@ CRONOGRAMA CAPILAR – 4 SEMANAS
 - ❌ ERRADO: Semana 1 Wella + Semana 2 Kérastase (NUNCA mude de marca)
 - ❌ ERRADO: Semana 1 Truss + Semana 3 Amend (NUNCA mude de marca)
 
-[ESCOLHA UMA MARCA AGORA E USE EM TODAS AS 4 SEMANAS: ________________]
-
 SEMANA 1
 Tratamento: [TIPO: Hidratação/Nutrição/Reconstrução]
 Objetivo: [Descrever objetivo específico desta semana]
-[MARCA ESCOLHIDA PARA ESTA SEMANA: ________________]
-– Shampoo: [Marca + Linha + Nome COMPLETO - mesma marca do combo]
-– Máscara: [Marca + Linha + Nome COMPLETO - mesma marca do combo]
-– Condicionador: [Marca + Linha + Nome COMPLETO - mesma marca do combo, se aplicável]
-– Leave-in / Protetor térmico: [Marca + Linha + Nome COMPLETO - mesma marca do combo]
-– Óleo ou finalizador: [Marca + Linha + Nome COMPLETO - mesma marca do combo, se aplicável]
+[COERÊNCIA CRÍTICA: Se o tratamento é RECONSTRUÇÃO, use linha de reconstrução (ex: Wella Fusion, Kérastase Résistance). Se é NUTRIÇÃO, use linha nutritiva (ex: Wella Oil Reflections). Se é HIDRATAÇÃO, use linha hidratante (ex: Wella Invigo)]
+– Shampoo: [Marca + Linha + Nome COMPLETO - linha deve bater com tipo de tratamento]
+– Máscara: [Marca + Linha + Nome COMPLETO - mesma linha do shampoo]
+– Condicionador: [Marca + Linha + Nome COMPLETO - mesma linha, se aplicável]
+– Leave-in / Protetor térmico: [Marca + Linha + Nome COMPLETO - mesma marca]
+– Óleo ou finalizador: [Marca + Linha + Nome COMPLETO - mesma marca, se aplicável]
 
 SEMANA 2
 Tratamento: [TIPO: Hidratação/Nutrição/Reconstrução]
 Objetivo: [Descrever objetivo específico desta semana]
-[MARCA ESCOLHIDA PARA ESTA SEMANA: ________________]
-– Shampoo: [Marca + Linha + Nome COMPLETO - mesma marca do combo]
-– Máscara: [Marca + Linha + Nome COMPLETO - mesma marca do combo]
-– Condicionador: [Marca + Linha + Nome COMPLETO - mesma marca do combo, se aplicável]
-– Leave-in / Protetor térmico: [Marca + Linha + Nome COMPLETO - mesma marca do combo]
-– Óleo ou finalizador: [Marca + Linha + Nome COMPLETO - mesma marca do combo, se aplicável]
+– Shampoo: [Marca + Linha + Nome COMPLETO - linha coerente com tipo de tratamento]
+– Máscara: [Marca + Linha + Nome COMPLETO - mesma linha do shampoo]
+– Condicionador: [Marca + Linha + Nome COMPLETO - mesma linha, se aplicável]
+– Leave-in / Protetor térmico: [Marca + Linha + Nome COMPLETO - mesma marca]
+– Óleo ou finalizador: [Marca + Linha + Nome COMPLETO - mesma marca, se aplicável]
 
 SEMANA 3
 Tratamento: [TIPO: Hidratação/Nutrição/Reconstrução]
 Objetivo: [Descrever objetivo específico desta semana]
-[MARCA ESCOLHIDA PARA ESTA SEMANA: ________________]
-– Shampoo: [Marca + Linha + Nome COMPLETO - mesma marca do combo]
-– Máscara: [Marca + Linha + Nome COMPLETO - mesma marca do combo]
-– Condicionador: [Marca + Linha + Nome COMPLETO - mesma marca do combo, se aplicável]
-– Leave-in / Protetor térmico: [Marca + Linha + Nome COMPLETO - mesma marca do combo]
+– Shampoo: [Marca + Linha + Nome COMPLETO - linha coerente com tipo de tratamento]
+– Máscara: [Marca + Linha + Nome COMPLETO - mesma linha do shampoo]
+– Condicionador: [Marca + Linha + Nome COMPLETO - mesma linha, se aplicável]
+– Leave-in / Protetor térmico: [Marca + Linha + Nome COMPLETO - mesma marca]
 – Óleo ou finalizador: [Marca + Linha + Nome COMPLETO - mesma marca do combo, se aplicável]
 
 SEMANA 4
 Tratamento: [TIPO: Hidratação/Nutrição/Reconstrução]
 Objetivo: [Descrever objetivo específico desta semana]
-[MARCA ESCOLHIDA PARA ESTA SEMANA: ________________]
-– Shampoo: [Marca + Linha + Nome COMPLETO - mesma marca do combo]
-– Máscara: [Marca + Linha + Nome COMPLETO - mesma marca do combo]
-– Condicionador: [Marca + Linha + Nome COMPLETO - mesma marca do combo, se aplicável]
-– Leave-in / Protetor térmico: [Marca + Linha + Nome COMPLETO - mesma marca do combo]
-– Óleo ou finalizador: [Marca + Linha + Nome COMPLETO - mesma marca do combo, se aplicável]
+– Shampoo: [Marca + Linha + Nome COMPLETO - linha coerente com tipo de tratamento]
+– Máscara: [Marca + Linha + Nome COMPLETO - mesma linha do shampoo]
+– Condicionador: [Marca + Linha + Nome COMPLETO - mesma linha, se aplicável]
+– Leave-in / Protetor térmico: [Marca + Linha + Nome COMPLETO - mesma marca]
+– Óleo ou finalizador: [Marca + Linha + Nome COMPLETO - mesma marca, se aplicável]
 
 ────────────────────────────────
 
