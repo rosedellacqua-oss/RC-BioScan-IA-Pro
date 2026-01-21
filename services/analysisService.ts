@@ -90,6 +90,8 @@ REGRAS CRÍTICAS (NÃO VIOLAR):
 5. **REGRA DE OURO DO CRONOGRAMA**: SEMPRE cite o nome COMPLETO do produto (Marca + Linha + Nome). NUNCA use apenas categoria genérica.
 6. NO CRONOGRAMA: É PROIBIDO usar apenas "Shampoo Hidratante", "Máscara de Reconstrução", etc. 
 7. NO CRONOGRAMA: É OBRIGATÓRIO usar "Kérastase Nutritive Bain Satin", "Truss Máscara de Reconstrução", etc.
+8. **REGRA COMBO/KIT**: Cada semana deve usar produtos da MESMA MARCA. Se escolher Kérastase na Semana 1, TODOS os produtos (shampoo, máscara, condicionador, leave-in) devem ser Kérastase. NUNCA misture marcas no mesmo tratamento.
+9. **COERÊNCIA DE LINHA**: Prefira usar a mesma linha da marca (ex: Wella Fusion, Kérastase Nutritive) para todos os produtos de uma semana.
 
 EXEMPLOS CORRETOS:
 ✅ "Wella Professionals Oil Reflections Luminous Reveal Shampoo"
@@ -111,6 +113,27 @@ EXEMPLOS PROIBIDOS (nunca faça isso):
 ❌ "Máscara de Reconstrução"
 ❌ "Leave-in nutritivo"
 ❌ "Protetor térmico"
+
+EXEMPLOS DE COMBOS CORRETOS POR SEMANA:
+✅ SEMANA 1 - COMBO KÉRASTASE NUTRITIVE:
+   - Shampoo: Kérastase Nutritive Bain Satin
+   - Máscara: Kérastase Nutritive Masquintense
+   - Leave-in: Kérastase Nutritive Nectar Thermique
+   
+✅ SEMANA 2 - COMBO TRUSS:
+   - Shampoo: Truss Uso Profissional Shampoo Reconstrutor
+   - Máscara: Truss Uso Profissional Máscara de Reconstrução
+   - Leave-in: Truss Uso Profissional Spray Leave-in
+
+✅ SEMANA 3 - COMBO WELLA FUSION:
+   - Shampoo: Wella Professionals Fusion Intense Repair Shampoo
+   - Máscara: Wella Professionals Fusion Intense Repair Mask
+   - Leave-in: Wella Professionals EIMI Thermal Image
+
+EXEMPLOS DE COMBOS ERRADOS (NUNCA FAÇA):
+❌ Shampoo Kérastase + Máscara Wella (marcas diferentes)
+❌ Shampoo Truss + Leave-in Amend (marcas diferentes)
+❌ Máscara Braé + Condicionador Lowell (marcas diferentes)
 
 EXEMPLOS PROIBIDOS:
 ❌ "Shampoo Hidratante"
@@ -239,41 +262,49 @@ CRONOGRAMA CAPILAR – 4 SEMANAS
 [PROIBIDO: "Shampoo Hidratante", "Máscara de Reconstrução"]
 [OBRIGATÓRIO: "Kérastase Nutritive Bain Satin", "Truss Máscara de Reconstrução"]
 
+**REGRA COMBO PROFISSIONAL**: Cada semana deve usar produtos da MESMA MARCA.
+Exemplo CORRETO: Se escolher Kérastase na Semana 1, TODOS os produtos devem ser Kérastase (shampoo, máscara, condicionador, leave-in).
+Exemplo ERRADO: Shampoo Kérastase + Máscara Wella (NUNCA faça isso).
+
 SEMANA 1
 Tratamento: [TIPO: Hidratação/Nutrição/Reconstrução]
 Objetivo: [Descrever objetivo específico desta semana]
-– Shampoo: [Marca + Linha + Nome COMPLETO do produto, ex: "Kérastase Nutritive Bain Satin"]
-– Máscara: [Marca + Linha + Nome COMPLETO do produto]
-– Condicionador: [Marca + Linha + Nome COMPLETO do produto se aplicável]
-– Leave-in / Protetor térmico: [Marca + Linha + Nome COMPLETO do produto]
-– Óleo ou finalizador: [Marca + Linha + Nome COMPLETO do produto se aplicável]
+[MARCA ESCOLHIDA PARA ESTA SEMANA: ________________]
+– Shampoo: [Marca + Linha + Nome COMPLETO - mesma marca do combo]
+– Máscara: [Marca + Linha + Nome COMPLETO - mesma marca do combo]
+– Condicionador: [Marca + Linha + Nome COMPLETO - mesma marca do combo, se aplicável]
+– Leave-in / Protetor térmico: [Marca + Linha + Nome COMPLETO - mesma marca do combo]
+– Óleo ou finalizador: [Marca + Linha + Nome COMPLETO - mesma marca do combo, se aplicável]
 
 SEMANA 2
 Tratamento: [TIPO: Hidratação/Nutrição/Reconstrução]
 Objetivo: [Descrever objetivo específico desta semana]
-– Shampoo: [Marca + Linha + Nome COMPLETO do produto]
-– Máscara: [Marca + Linha + Nome COMPLETO do produto]
-– Condicionador: [Marca + Linha + Nome COMPLETO do produto se aplicável]
-– Leave-in / Protetor térmico: [Marca + Linha + Nome COMPLETO do produto]
-– Óleo ou finalizador: [Marca + Linha + Nome COMPLETO do produto se aplicável]
+[MARCA ESCOLHIDA PARA ESTA SEMANA: ________________]
+– Shampoo: [Marca + Linha + Nome COMPLETO - mesma marca do combo]
+– Máscara: [Marca + Linha + Nome COMPLETO - mesma marca do combo]
+– Condicionador: [Marca + Linha + Nome COMPLETO - mesma marca do combo, se aplicável]
+– Leave-in / Protetor térmico: [Marca + Linha + Nome COMPLETO - mesma marca do combo]
+– Óleo ou finalizador: [Marca + Linha + Nome COMPLETO - mesma marca do combo, se aplicável]
 
 SEMANA 3
 Tratamento: [TIPO: Hidratação/Nutrição/Reconstrução]
 Objetivo: [Descrever objetivo específico desta semana]
-– Shampoo: [Marca + Linha + Nome COMPLETO do produto]
-– Máscara: [Marca + Linha + Nome COMPLETO do produto]
-– Condicionador: [Marca + Linha + Nome COMPLETO do produto se aplicável]
-– Leave-in / Protetor térmico: [Marca + Linha + Nome COMPLETO do produto]
-– Óleo ou finalizador: [Marca + Linha + Nome COMPLETO do produto se aplicável]
+[MARCA ESCOLHIDA PARA ESTA SEMANA: ________________]
+– Shampoo: [Marca + Linha + Nome COMPLETO - mesma marca do combo]
+– Máscara: [Marca + Linha + Nome COMPLETO - mesma marca do combo]
+– Condicionador: [Marca + Linha + Nome COMPLETO - mesma marca do combo, se aplicável]
+– Leave-in / Protetor térmico: [Marca + Linha + Nome COMPLETO - mesma marca do combo]
+– Óleo ou finalizador: [Marca + Linha + Nome COMPLETO - mesma marca do combo, se aplicável]
 
 SEMANA 4
 Tratamento: [TIPO: Hidratação/Nutrição/Reconstrução]
 Objetivo: [Descrever objetivo específico desta semana]
-– Shampoo: [Marca + Linha + Nome COMPLETO do produto]
-– Máscara: [Marca + Linha + Nome COMPLETO do produto]
-– Condicionador: [Marca + Linha + Nome COMPLETO do produto se aplicável]
-– Leave-in / Protetor térmico: [Marca + Linha + Nome COMPLETO do produto]
-– Óleo ou finalizador: [Marca + Linha + Nome COMPLETO do produto se aplicável]
+[MARCA ESCOLHIDA PARA ESTA SEMANA: ________________]
+– Shampoo: [Marca + Linha + Nome COMPLETO - mesma marca do combo]
+– Máscara: [Marca + Linha + Nome COMPLETO - mesma marca do combo]
+– Condicionador: [Marca + Linha + Nome COMPLETO - mesma marca do combo, se aplicável]
+– Leave-in / Protetor térmico: [Marca + Linha + Nome COMPLETO - mesma marca do combo]
+– Óleo ou finalizador: [Marca + Linha + Nome COMPLETO - mesma marca do combo, se aplicável]
 
 ────────────────────────────────
 
