@@ -16,6 +16,7 @@ export enum AppStep {
 export interface AnamneseData {
   name: string;
   phone: string;
+  professionalName: string;
   chemicalHistory: string[];
   heatUsage: 'Baixo' | 'Médio' | 'Alto';
   complaints: string[];

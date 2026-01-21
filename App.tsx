@@ -8,7 +8,7 @@ import { BRAND_BLOCKS, CAPILLARY_ZONES } from './data/brandsCatalog';
 
 // UI Components
 const Header: React.FC = () => (
-  <header className="p-6 flex justify-between items-center border-b border-yellow-500/20 glass sticky top-0 z-50">
+  <header className="p-6 flex justify-between items-center border-b border-yellow-500/20 glass sticky top-0 z-50 no-print">
     <div className="flex items-center gap-3">
       <div className="w-10 h-10 rounded-full gold-gradient flex items-center justify-center shadow-lg shadow-orange-500/20">
         <span className="text-white font-bold text-xl">RC</span>
@@ -22,7 +22,7 @@ const Header: React.FC = () => (
 );
 
 const Footer: React.FC = () => (
-  <footer className="p-8 mt-12 border-t border-yellow-500/10 text-center text-slate-500 text-sm">
+  <footer className="p-8 mt-12 border-t border-yellow-500/10 text-center text-slate-500 text-sm no-print">
     <p>Relatório gerado pelo sistema profissional RC-BioScan IA</p>
     <p className="mt-1">Inteligência Artificial desenvolvida por <span className="text-amber-500">Rosemary Costa – CABELO IA</span></p>
     <p className="mt-2 text-xs">www.cabeloia.com.br | WhatsApp: +55 11 92102-2430</p>
@@ -72,6 +72,7 @@ const App: React.FC = () => {
   const [anamnese, setAnamnese] = useState<AnamneseData>({
     name: '',
     phone: '',
+    professionalName: '',
     chemicalHistory: [],
     heatUsage: 'Médio',
     complaints: [],
@@ -234,6 +235,16 @@ const App: React.FC = () => {
                   onChange={e => setAnamnese({...anamnese, phone: e.target.value})}
                   className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 focus:outline-none focus:border-amber-500 transition-colors"
                   placeholder="(00) 00000-0000"
+                />
+              </div>
+              <div className="space-y-2 md:col-span-2">
+                <label className="text-xs uppercase tracking-wider text-slate-500 font-bold">Nome do Profissional</label>
+                <input 
+                  type="text" 
+                  value={anamnese.professionalName}
+                  onChange={e => setAnamnese({...anamnese, professionalName: e.target.value})}
+                  className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 focus:outline-none focus:border-amber-500 transition-colors"
+                  placeholder="Ex: Rosemary Costa"
                 />
               </div>
             </div>
@@ -538,21 +549,46 @@ const App: React.FC = () => {
         {/* STEP 5: REPORT */}
         {step === AppStep.REPORT && (
           <div className="space-y-6 animate-in slide-in-from-bottom-8 duration-700">
+             {/* Print Header - only visible when printing */}
+             <div className="hidden print:block print-header">
+               <div className="flex items-center justify-center gap-3 mb-2">
+                 <div className="w-10 h-10 rounded-full" style={{background: 'linear-gradient(135deg, #d4af37 0%, #f97316 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold', fontSize: '20px'}}>RC</div>
+                 <div>
+                   <div style={{fontFamily: 'Playfair Display, serif', fontSize: '24px', fontWeight: 'bold'}}>RC-BioScan <span style={{color: '#f59e0b'}}>IA PRO</span></div>
+                   <div style={{fontSize: '10px', letterSpacing: '2px', color: '#3b82f6', textTransform: 'uppercase'}}>Mapeamento Capilar Inteligente</div>
+                 </div>
+               </div>
+             </div>
+
              <div className="glass rounded-3xl p-8 border border-white/5 relative overflow-hidden">
-               <div className="absolute top-0 right-0 p-4">
+               <div className="absolute top-0 right-0 p-4 no-print">
                   <div className="bg-amber-500/10 text-amber-500 text-[10px] font-black uppercase px-2 py-1 rounded border border-amber-500/20">
                     Diagnóstico Finalizado
                   </div>
                </div>
                
                <div className="prose prose-invert max-w-none">
-                 <div className="whitespace-pre-wrap font-mono text-sm text-slate-300 leading-relaxed">
+                 <div className="whitespace-pre-wrap font-mono text-sm text-slate-300 leading-relaxed report-content">
                    {report}
                  </div>
                </div>
              </div>
 
-             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pb-12">
+             {/* Print Footer - only visible when printing */}
+             <div className="hidden print:block print-footer">
+               <div className="flex items-center justify-center gap-3 mb-2">
+                 <div className="w-10 h-10 rounded-full" style={{background: 'linear-gradient(135deg, #d4af37 0%, #f97316 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold', fontSize: '20px'}}>RC</div>
+                 <div>
+                   <div style={{fontFamily: 'Playfair Display, serif', fontSize: '24px', fontWeight: 'bold'}}>RC-BioScan <span style={{color: '#f59e0b'}}>IA PRO</span></div>
+                   <div style={{fontSize: '10px', letterSpacing: '2px', color: '#3b82f6', textTransform: 'uppercase'}}>Mapeamento Capilar Inteligente</div>
+                 </div>
+               </div>
+               <p style={{margin: '4px 0'}}>Relatório gerado pelo sistema profissional RC-BioScan IA</p>
+               <p style={{margin: '4px 0'}}>Inteligência Artificial desenvolvida por <strong>Rosemary Costa – CABELO IA</strong></p>
+               <p style={{margin: '4px 0', fontSize: '11px'}}>www.cabeloia.com.br | WhatsApp: +55 11 92102-2430</p>
+             </div>
+
+             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pb-12 no-print">
                <button 
                 onClick={copyToClipboard}
                 className="flex items-center justify-center gap-3 p-4 bg-slate-900 rounded-2xl font-bold text-sm border border-slate-800 hover:bg-slate-800 transition-all"

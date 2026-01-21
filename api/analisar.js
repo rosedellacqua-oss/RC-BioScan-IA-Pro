@@ -1,8 +1,13 @@
 export default async function handler(req, res) {
-  const API_KEY = "AIzaSyCi509PAtDLnH3hXGR7bYrGbW3B92EBHYg"; 
+  // Use environment variable for API key (configured in Vercel)
+  const API_KEY = process.env.GEMINI_API_KEY; 
   
-  // Mudamos aqui: de 'v1beta' para 'v1' para o Google encontrar o modelo
-  const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+  if (!API_KEY) {
+    return res.status(500).json({ error: 'GEMINI_API_KEY not configured' });
+  }
+  
+  // Use v1beta com gemini-2.5-flash (modelo estável para análise multimodal)
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
