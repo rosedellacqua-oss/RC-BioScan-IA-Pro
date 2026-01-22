@@ -1,25 +1,15 @@
 import { AnamneseData, CapillaryImage, ArsenalConfig, UserMode } from "../types";
 
-/**
- * RC-BioScan Image Pipeline (Vercel-safe)
- * - Downscale to balance quality and payload size
- * - Convert to JPEG with adaptive quality
- * - Target ~3.5 MB per image to stay under Vercel's 4.5 MB payload limit
- */
-
-const MAX_DIMENSION = 1920;      // Higher resolution for better AI analysis
-const JPEG_QUALITY = 0.85;       // Start with high quality, reduce if needed
-
+// Utilitário para compressão de imagem
+const MAX_DIMENSION = 1920;
+const JPEG_QUALITY = 0.85;
 async function compressImageToJpeg(dataUrl: string): Promise<string> {
   return new Promise((resolve) => {
     const img = new Image();
-
     img.onload = () => {
       try {
         let width = img.width;
         let height = img.height;
-
-        // Keep aspect ratio
         if (width > height) {
           if (width > MAX_DIMENSION) {
             height = Math.round((height * MAX_DIMENSION) / width);
@@ -31,64 +21,64 @@ async function compressImageToJpeg(dataUrl: string): Promise<string> {
             height = MAX_DIMENSION;
           }
         }
-
         const canvas = document.createElement("canvas");
         canvas.width = width;
         canvas.height = height;
-
         const ctx = canvas.getContext("2d");
         if (!ctx) return resolve(dataUrl);
-
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = "high";
         ctx.drawImage(img, 0, 0, width, height);
-
-        // Adaptive compression: start high, reduce if needed
         let quality = JPEG_QUALITY;
         let compressed = canvas.toDataURL("image/jpeg", quality);
-        
-        // Target: ~3.5 MB in base64
         const TARGET_SIZE = 3.5 * 1024 * 1024;
         const MAX_ATTEMPTS = 5;
         let attempts = 0;
-
         while (compressed.length > TARGET_SIZE && quality > 0.3 && attempts < MAX_ATTEMPTS) {
           quality -= 0.1;
           compressed = canvas.toDataURL("image/jpeg", quality);
           attempts++;
         }
-
-        console.log(`Image compressed: ${(compressed.length / 1024 / 1024).toFixed(2)} MB, quality: ${(quality * 100).toFixed(0)}%`);
         resolve(compressed);
       } catch {
         resolve(dataUrl);
       }
     };
-
     img.onerror = () => resolve(dataUrl);
     img.src = dataUrl;
   });
 }
 
 function extractBase64(dataUrl: string): string {
-  // "data:image/jpeg;base64,AAAA..." -> "AAAA..."
   const parts = dataUrl.split(",");
   return parts.length > 1 ? parts[1] : dataUrl;
 }
 
+// Função para construir o prompt do sistema
 function buildSystemInstruction(arsenal: ArsenalConfig): string {
   const fixedBrand = (arsenal?.fixedBrand || "").trim();
-
-  return `
-Você é um especialista em tricologia avançada e cosmetologia capilar profissional.
-
-${fixedBrand ? `
+  const allowedBrands = (arsenal?.allowedBrands || []).filter(b => b).map(b => b.trim()).filter(b => b.length > 0);
+  let brandBlock = "";
+  if (fixedBrand) {
+    brandBlock = `
 ╔═══════════════════════════════════════════════════════════════╗
 ║ MARCA OBRIGATÓRIA SELECIONADA PELO CLIENTE: ${fixedBrand}
 ║ VOCÊ DEVE USAR EXCLUSIVAMENTE PRODUTOS DESTA MARCA!
 ║ NÃO USE NENHUMA OUTRA MARCA EM TODO O CRONOGRAMA!
 ╚═══════════════════════════════════════════════════════════════╝
-` : ''}
+`;
+  } else if (allowedBrands.length > 0) {
+    brandBlock = `
+╔═══════════════════════════════════════════════════════════════╗
+║ MARCAS AUTORIZADAS SELECIONADAS PELO CLIENTE: ${allowedBrands.join(", ")}
+║ VOCÊ DEVE USAR EXCLUSIVAMENTE PRODUTOS DESSAS MARCAS!
+║ NÃO USE NENHUMA OUTRA MARCA EM TODO O CRONOGRAMA!
+╚═══════════════════════════════════════════════════════════════╝
+`;
+  }
+  return `
+Você é um especialista em tricologia avançada e cosmetologia capilar profissional.
+${brandBlock}
 
 REGRAS CRÍTICAS (NÃO VIOLAR):
 1. NÃO diagnostique doenças. Apenas análise cosmética.
@@ -96,11 +86,11 @@ REGRAS CRÍTICAS (NÃO VIOLAR):
 3. NUNCA invente nomes de produtos ou SKUs que não existem.
 4. Use APENAS produtos REAIS de marcas profissionais brasileiras autorizadas.
 5. **REGRA DE OURO DO CRONOGRAMA**: SEMPRE cite o nome COMPLETO do produto (Marca + Linha + Nome). NUNCA use apenas categoria genérica.
-6. NO CRONOGRAMA: É PROIBIDO usar apenas "Shampoo Hidratante", "Máscara de Reconstrução", etc. 
+6. NO CRONOGRAMA: É PROIBIDO usar apenas "Shampoo Hidratante", "Máscara de Reconstrução", etc.
 7. NO CRONOGRAMA: É OBRIGATÓRIO usar "Kérastase Nutritive Bain Satin", "Truss Máscara de Reconstrução", etc.
-8. **REGRA MARCA ÚNICA**: TODO O CRONOGRAMA (4 semanas) deve usar produtos de UMA ÚNICA MARCA. ${fixedBrand ? `A marca selecionada é ${fixedBrand}` : 'Se escolher Wella, as 4 semanas devem ser Wella. Se escolher Kérastase, as 4 semanas devem ser Kérastase'}.
+8. **REGRA MARCA ÚNICA OU AUTORIZADA**: TODO O CRONOGRAMA (4 semanas) deve usar produtos de UMA ÚNICA MARCA ou das MARCAS AUTORIZADAS SELECIONADAS PELO CLIENTE. ${fixedBrand ? `A marca selecionada é ${fixedBrand}` : allowedBrands.length > 0 ? `As marcas autorizadas são: ${allowedBrands.join(", ")}` : 'Se escolher Wella, as 4 semanas devem ser Wella. Se escolher Kérastase, as 4 semanas devem ser Kérastase'}.
 9. **REGRA COMBO/KIT**: Cada semana deve usar produtos da MESMA LINHA. Se escolher Wella Fusion na Semana 1, TODOS os produtos daquela semana devem ser Wella Fusion.
-10. **VARIAÇÃO DE LINHAS**: Varie as LINHAS da marca ${fixedBrand ? fixedBrand : 'escolhida'} conforme o tipo de tratamento (ex: Semana 1 = Wella Fusion, Semana 2 = Wella Oil Reflections, Semana 3 = Wella Invigo). NUNCA mude de marca entre semanas.
+10. **VARIAÇÃO DE LINHAS**: Varie as LINHAS da marca ${fixedBrand ? fixedBrand : allowedBrands.length > 0 ? allowedBrands.join(" ou ") : 'escolhida'} conforme o tipo de tratamento (ex: Semana 1 = Wella Fusion, Semana 2 = Wella Oil Reflections, Semana 3 = Wella Invigo). NUNCA mude de marca entre semanas.
 
 EXEMPLOS CORRETOS:
 ✅ "Wella Professionals Oil Reflections Luminous Reveal Shampoo"
