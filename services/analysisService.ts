@@ -242,19 +242,6 @@ REPETINDO: USE APENAS ${fixedBrand} EM TODAS AS 4 SEMANAS!`
 }
 
 ANÁLISE OBRIGATÓRIA:
-     - Exemplo correto: "Wella Professionals Oil Reflections Luminous Reveal Shampoo"
-     - NUNCA use apenas "Shampoo Hidratante" ou categoria genérica
-     - Todos os produtos devem ser desta marca: ${fixedBrand}`
-  : `SEM MARCA ESPECÍFICA SELECIONADA:
-     - OBRIGATÓRIO: Escolha marcas profissionais brasileiras reais
-     - Liste SEMPRE o nome COMPLETO do produto com marca
-     - Exemplo: "Kérastase Nutritive Bain Satin Shampoo"
-     - Exemplo: "Truss Uso Profissional Máscara de Reconstrução"
-     - NUNCA use apenas categoria genérica como "Shampoo Hidratante"
-     - Varie as marcas conforme o tipo de produto e tratamento`
-}
-
-ANÁLISE OBRIGATÓRIA:
 - Risco químico e integridade do fio
 - Porosidade, elasticidade, fragilidade
 - Condições do couro cabeludo
