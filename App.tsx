@@ -1,3 +1,7 @@
+             {/* Print Footer - only visible when printing */}
+             <div className="hidden print:block print-footer" style={{position: 'fixed', bottom: 0, left: 0, width: '100%', textAlign: 'left', fontSize: '11px', color: '#555', padding: '8px 24px'}}>
+               <span>https://rc-bio-scan-ia-pro.vercel.app</span>
+             </div>
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { 
