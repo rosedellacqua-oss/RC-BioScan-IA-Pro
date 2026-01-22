@@ -7,8 +7,8 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'GEMINI_API_KEY not configured' });
   }
   
-  // Use gemini-1.5-flash-latest (modelo estável para análise multimodal)
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`;
+  // Use gemini-2.5-flash (modelo estável para análise multimodal)
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
