@@ -574,19 +574,7 @@ const App: React.FC = () => {
                </div>
              </div>
 
-             {/* Print Footer - only visible when printing */}
-             <div className="hidden print:block print-footer">
-               <div className="flex items-center justify-center gap-3 mb-2">
-                 <div className="w-10 h-10 rounded-full" style={{background: 'linear-gradient(135deg, #d4af37 0%, #f97316 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold', fontSize: '20px'}}>RC</div>
-                 <div>
-                   <div style={{fontFamily: 'Playfair Display, serif', fontSize: '24px', fontWeight: 'bold'}}>RC-BioScan <span style={{color: '#f59e0b'}}>IA PRO</span></div>
-                   <div style={{fontSize: '10px', letterSpacing: '2px', color: '#3b82f6', textTransform: 'uppercase'}}>Mapeamento Capilar Inteligente</div>
-                 </div>
-               </div>
-               <p style={{margin: '4px 0'}}>Relatório gerado pelo sistema profissional RC-BioScan IA</p>
-               <p style={{margin: '4px 0'}}>Inteligência Artificial desenvolvida por <strong>Rosemary Costa – CABELO IA</strong></p>
-               <p style={{margin: '4px 0', fontSize: '11px'}}>www.cabeloia.com.br | WhatsApp: +55 11 92102-2430</p>
-             </div>
+             {/* Print Footer removido para não exibir link/contato no PDF */}
 
              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pb-12 no-print">
                <button 
