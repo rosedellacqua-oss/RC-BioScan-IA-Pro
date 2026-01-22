@@ -82,6 +82,14 @@ function buildSystemInstruction(arsenal: ArsenalConfig): string {
   return `
 Você é um especialista em tricologia avançada e cosmetologia capilar profissional.
 
+${fixedBrand ? `
+╔═══════════════════════════════════════════════════════════════╗
+║ MARCA OBRIGATÓRIA SELECIONADA PELO CLIENTE: ${fixedBrand}
+║ VOCÊ DEVE USAR EXCLUSIVAMENTE PRODUTOS DESTA MARCA!
+║ NÃO USE NENHUMA OUTRA MARCA EM TODO O CRONOGRAMA!
+╚═══════════════════════════════════════════════════════════════╝
+` : ''}
+
 REGRAS CRÍTICAS (NÃO VIOLAR):
 1. NÃO diagnostique doenças. Apenas análise cosmética.
 2. Se identificar: queda intensa, lesões, inflamação severa, coceira persistente → SEMPRE recomende avaliação dermatológica.
@@ -90,9 +98,9 @@ REGRAS CRÍTICAS (NÃO VIOLAR):
 5. **REGRA DE OURO DO CRONOGRAMA**: SEMPRE cite o nome COMPLETO do produto (Marca + Linha + Nome). NUNCA use apenas categoria genérica.
 6. NO CRONOGRAMA: É PROIBIDO usar apenas "Shampoo Hidratante", "Máscara de Reconstrução", etc. 
 7. NO CRONOGRAMA: É OBRIGATÓRIO usar "Kérastase Nutritive Bain Satin", "Truss Máscara de Reconstrução", etc.
-8. **REGRA MARCA ÚNICA**: TODO O CRONOGRAMA (4 semanas) deve usar produtos de UMA ÚNICA MARCA. Se escolher Wella, as 4 semanas devem ser Wella. Se escolher Kérastase, as 4 semanas devem ser Kérastase.
+8. **REGRA MARCA ÚNICA**: TODO O CRONOGRAMA (4 semanas) deve usar produtos de UMA ÚNICA MARCA. ${fixedBrand ? `A marca selecionada é ${fixedBrand}` : 'Se escolher Wella, as 4 semanas devem ser Wella. Se escolher Kérastase, as 4 semanas devem ser Kérastase'}.
 9. **REGRA COMBO/KIT**: Cada semana deve usar produtos da MESMA LINHA. Se escolher Wella Fusion na Semana 1, TODOS os produtos daquela semana devem ser Wella Fusion.
-10. **VARIAÇÃO DE LINHAS**: Varie as LINHAS da marca escolhida conforme o tipo de tratamento (ex: Semana 1 = Wella Fusion, Semana 2 = Wella Oil Reflections, Semana 3 = Wella Invigo). NUNCA mude de marca entre semanas.
+10. **VARIAÇÃO DE LINHAS**: Varie as LINHAS da marca ${fixedBrand ? fixedBrand : 'escolhida'} conforme o tipo de tratamento (ex: Semana 1 = Wella Fusion, Semana 2 = Wella Oil Reflections, Semana 3 = Wella Invigo). NUNCA mude de marca entre semanas.
 
 EXEMPLOS CORRETOS:
 ✅ "Wella Professionals Oil Reflections Luminous Reveal Shampoo"
@@ -173,9 +181,29 @@ MARCAS PROIBIDAS (varejo massivo não profissional): Skala, Niely, TRESemmé, Ya
 
 MODO DE RECOMENDAÇÃO:
 ${fixedBrand 
-  ? `MARCA FIXA: "${fixedBrand}"
-     - OBRIGATÓRIO: Liste SEMPRE o nome COMPLETO e REAL do produto
-     - Formato: [Marca] + [Linha] + [Nome do Produto]
+  ? `╔═══════════════════════════════════════════════════════════════╗
+║ ATENÇÃO: MARCA OBRIGATÓRIA SELECIONADA = "${fixedBrand}"
+║ TODAS AS 4 SEMANAS DEVEM TER APENAS PRODUTOS ${fixedBrand}!
+║ PROIBIDO USAR QUALQUER OUTRA MARCA!
+╚═══════════════════════════════════════════════════════════════╝
+
+INSTRUÇÕES PARA MARCA FIXA "${fixedBrand}":
+- TODO O CRONOGRAMA (4 semanas completas) deve ter EXCLUSIVAMENTE produtos ${fixedBrand}
+- NUNCA mencione, sugira ou use produtos de outras marcas
+- Liste SEMPRE: ${fixedBrand} [Linha] [Nome do Produto]
+- Exemplo correto: "${fixedBrand} Nutritive Bain Satin Shampoo"
+- Varie as LINHAS do ${fixedBrand} conforme o tratamento
+- Se ${fixedBrand} não tiver uma linha específica, use a linha mais próxima disponível da marca`
+  : `SEM MARCA ESPECÍFICA SELECIONADA:
+     - OBRIGATÓRIO: Escolha marcas profissionais brasileiras reais
+     - Liste SEMPRE o nome COMPLETO do produto com marca
+     - Exemplo: "Kérastase Nutritive Bain Satin Shampoo"
+     - Exemplo: "Truss Uso Profissional Máscara de Reconstrução"
+     - NUNCA use apenas categoria genérica como "Shampoo Hidratante"
+     - Todo o cronograma deve usar UMA ÚNICA marca escolhida`
+}
+
+ANÁLISE OBRIGATÓRIA:
      - Exemplo correto: "Wella Professionals Oil Reflections Luminous Reveal Shampoo"
      - NUNCA use apenas "Shampoo Hidratante" ou categoria genérica
      - Todos os produtos devem ser desta marca: ${fixedBrand}`
@@ -220,8 +248,16 @@ function buildPrompt(
   const professionalPhone = "+55 11 92102-2430";
 
   return `
+${fixedBrand ? `
+════════════════════════════════════════════════════════════
+⚠️ MARCA OBRIGATÓRIA SELECIONADA PELO CLIENTE: ${fixedBrand}
+⚠️ USE APENAS PRODUTOS ${fixedBrand} EM TODO O CRONOGRAMA!
+⚠️ PROIBIDO USAR OUTRAS MARCAS!
+════════════════════════════════════════════════════════════
+` : ''}
+
 MODE: ${mode}
-BRAND_SELECTED: ${fixedBrand ? fixedBrand : "NONE"}
+BRAND_SELECTED: ${fixedBrand ? `***${fixedBrand}*** (OBRIGATÓRIO - NÃO USAR OUTRAS MARCAS)` : "NONE"}
 
 CLIENT_NAME: ${anamnese.name || ""}
 COMPLAINTS: ${(anamnese.complaints || []).join(", ")}
@@ -265,52 +301,65 @@ CONDUTA RECOMENDADA
 
 CRONOGRAMA CAPILAR – 4 SEMANAS
 ────────────────────────────────
+${fixedBrand ? `
+╔══════════════════════════════════════════════════════════════════╗
+║ ⚠️ MARCA SELECIONADA PELO CLIENTE: ${fixedBrand}
+║ ⚠️ USE APENAS ${fixedBrand} NAS 4 SEMANAS!
+║ ⚠️ PROIBIDO: Usar qualquer outra marca
+║ ⚠️ OBRIGATÓRIO: ${fixedBrand} [Linha] [Nome do Produto]
+╚══════════════════════════════════════════════════════════════════╝
+` : ''}
 [ATENÇÃO CRÍTICA: NUNCA use apenas categoria genérica. SEMPRE liste marca + linha + nome do produto]
 [PROIBIDO: "Shampoo Hidratante", "Máscara de Reconstrução"]
-[OBRIGATÓRIO: "Kérastase Nutritive Bain Satin", "Truss Máscara de Reconstrução"]
+[OBRIGATÓRIO: "${fixedBrand || 'Marca'} Linha Nome do Produto"]
 
-**REGRA MARCA ÚNICA - CRÍTICO**: TODO O CRONOGRAMA (4 semanas) deve usar UMA ÚNICA MARCA.
-- ✅ CORRETO: Semanas 1, 2, 3 e 4 com Wella (variando linhas: Fusion, Oil Reflections, Invigo)
+**REGRA MARCA ÚNICA - CRÍTICO**: TODO O CRONOGRAMA (4 semanas) deve usar ${fixedBrand ? `EXCLUSIVAMENTE ${fixedBrand}` : 'UMA ÚNICA MARCA'}.
+${fixedBrand ? `- ✅ CORRETO: Semanas 1, 2, 3 e 4 com ${fixedBrand} (variando apenas as LINHAS)
+- ❌ ERRADO: Usar qualquer marca diferente de ${fixedBrand}` : `- ✅ CORRETO: Semanas 1, 2, 3 e 4 com Wella (variando linhas: Fusion, Oil Reflections, Invigo)
 - ✅ CORRETO: Semanas 1, 2, 3 e 4 com Kérastase (variando linhas: Nutritive, Résistance)
 - ❌ ERRADO: Semana 1 Wella + Semana 2 Kérastase (NUNCA mude de marca)
-- ❌ ERRADO: Semana 1 Truss + Semana 3 Amend (NUNCA mude de marca)
+- ❌ ERRADO: Semana 1 Truss + Semana 3 Amend (NUNCA mude de marca)`}
 
 SEMANA 1
 Tratamento: [TIPO: Hidratação/Nutrição/Reconstrução]
 Objetivo: [Descrever objetivo específico desta semana]
-[COERÊNCIA CRÍTICA: Se o tratamento é RECONSTRUÇÃO, use linha de reconstrução (ex: Wella Fusion, Kérastase Résistance). Se é NUTRIÇÃO, use linha nutritiva (ex: Wella Oil Reflections). Se é HIDRATAÇÃO, use linha hidratante (ex: Wella Invigo)]
-– Shampoo: [Marca + Linha + Nome COMPLETO - linha deve bater com tipo de tratamento]
-– Máscara: [Marca + Linha + Nome COMPLETO - mesma linha do shampoo]
-– Condicionador: [Marca + Linha + Nome COMPLETO - mesma linha, se aplicável]
-– Leave-in / Protetor térmico: [Marca + Linha + Nome COMPLETO - mesma marca]
-– Óleo ou finalizador: [Marca + Linha + Nome COMPLETO - mesma marca, se aplicável]
+[COERÊNCIA CRÍTICA: Se o tratamento é RECONSTRUÇÃO, use linha de reconstrução. Se é NUTRIÇÃO, use linha nutritiva. Se é HIDRATAÇÃO, use linha hidratante.]
+${fixedBrand ? `[MARCA OBRIGATÓRIA: ${fixedBrand}]` : ''}
+– Shampoo: [${fixedBrand || 'Marca'} + Linha + Nome COMPLETO - linha deve bater com tipo de tratamento]
+– Máscara: [${fixedBrand || 'Marca'} + Linha + Nome COMPLETO - mesma linha do shampoo]
+– Condicionador: [${fixedBrand || 'Marca'} + Linha + Nome COMPLETO - mesma linha, se aplicável]
+– Leave-in / Protetor térmico: [${fixedBrand || 'Marca'} + Linha + Nome COMPLETO - mesma marca]
+– Óleo ou finalizador: [${fixedBrand || 'Marca'} + Linha + Nome COMPLETO - mesma marca, se aplicável]
 
 SEMANA 2
 Tratamento: [TIPO: Hidratação/Nutrição/Reconstrução]
 Objetivo: [Descrever objetivo específico desta semana]
-– Shampoo: [Marca + Linha + Nome COMPLETO - linha coerente com tipo de tratamento]
-– Máscara: [Marca + Linha + Nome COMPLETO - mesma linha do shampoo]
-– Condicionador: [Marca + Linha + Nome COMPLETO - mesma linha, se aplicável]
-– Leave-in / Protetor térmico: [Marca + Linha + Nome COMPLETO - mesma marca]
-– Óleo ou finalizador: [Marca + Linha + Nome COMPLETO - mesma marca, se aplicável]
+${fixedBrand ? `[MARCA OBRIGATÓRIA: ${fixedBrand}]` : ''}
+– Shampoo: [${fixedBrand || 'Marca'} + Linha + Nome COMPLETO - linha coerente com tipo de tratamento]
+– Máscara: [${fixedBrand || 'Marca'} + Linha + Nome COMPLETO - mesma linha do shampoo]
+– Condicionador: [${fixedBrand || 'Marca'} + Linha + Nome COMPLETO - mesma linha, se aplicável]
+– Leave-in / Protetor térmico: [${fixedBrand || 'Marca'} + Linha + Nome COMPLETO - mesma marca]
+– Óleo ou finalizador: [${fixedBrand || 'Marca'} + Linha + Nome COMPLETO - mesma marca, se aplicável]
 
 SEMANA 3
 Tratamento: [TIPO: Hidratação/Nutrição/Reconstrução]
 Objetivo: [Descrever objetivo específico desta semana]
-– Shampoo: [Marca + Linha + Nome COMPLETO - linha coerente com tipo de tratamento]
-– Máscara: [Marca + Linha + Nome COMPLETO - mesma linha do shampoo]
-– Condicionador: [Marca + Linha + Nome COMPLETO - mesma linha, se aplicável]
-– Leave-in / Protetor térmico: [Marca + Linha + Nome COMPLETO - mesma marca]
-– Óleo ou finalizador: [Marca + Linha + Nome COMPLETO - mesma marca do combo, se aplicável]
+${fixedBrand ? `[MARCA OBRIGATÓRIA: ${fixedBrand}]` : ''}
+– Shampoo: [${fixedBrand || 'Marca'} + Linha + Nome COMPLETO - linha coerente com tipo de tratamento]
+– Máscara: [${fixedBrand || 'Marca'} + Linha + Nome COMPLETO - mesma linha do shampoo]
+– Condicionador: [${fixedBrand || 'Marca'} + Linha + Nome COMPLETO - mesma linha, se aplicável]
+– Leave-in / Protetor térmico: [${fixedBrand || 'Marca'} + Linha + Nome COMPLETO - mesma marca]
+– Óleo ou finalizador: [${fixedBrand || 'Marca'} + Linha + Nome COMPLETO - mesma marca do combo, se aplicável]
 
 SEMANA 4
 Tratamento: [TIPO: Hidratação/Nutrição/Reconstrução]
 Objetivo: [Descrever objetivo específico desta semana]
-– Shampoo: [Marca + Linha + Nome COMPLETO - linha coerente com tipo de tratamento]
-– Máscara: [Marca + Linha + Nome COMPLETO - mesma linha do shampoo]
-– Condicionador: [Marca + Linha + Nome COMPLETO - mesma linha, se aplicável]
-– Leave-in / Protetor térmico: [Marca + Linha + Nome COMPLETO - mesma marca]
-– Óleo ou finalizador: [Marca + Linha + Nome COMPLETO - mesma marca, se aplicável]
+${fixedBrand ? `[MARCA OBRIGATÓRIA: ${fixedBrand}]` : ''}
+– Shampoo: [${fixedBrand || 'Marca'} + Linha + Nome COMPLETO - linha coerente com tipo de tratamento]
+– Máscara: [${fixedBrand || 'Marca'} + Linha + Nome COMPLETO - mesma linha do shampoo]
+– Condicionador: [${fixedBrand || 'Marca'} + Linha + Nome COMPLETO - mesma linha, se aplicável]
+– Leave-in / Protetor térmico: [${fixedBrand || 'Marca'} + Linha + Nome COMPLETO - mesma marca]
+– Óleo ou finalizador: [${fixedBrand || 'Marca'} + Linha + Nome COMPLETO - mesma marca, se aplicável]
 
 ────────────────────────────────
 
@@ -367,7 +416,7 @@ export async function analyzeCapillaryData(
     });
   }
 
-  // 4) Payload (v1beta com gemini-2.5-flash suporta systemInstruction)
+  // 4) Payload (v1beta com gemini-1.5-flash-latest suporta systemInstruction)
   const payload = {
     contents: [{ role: "user", parts }],
     systemInstruction: { parts: [{ text: systemInstruction }] },
