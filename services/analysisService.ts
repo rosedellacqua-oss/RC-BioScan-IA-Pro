@@ -162,6 +162,20 @@ LINHAS REAIS DA WELLA PROFESSIONALS:
 - EIMI (finalizadores e protetores térmicos)
 - Koleston Perfect (coloração)
 
+LINHAS REAIS DA SALON LINE PROFESSIONAL:
+- S.O.S Cachos (hidratação para cabelos cacheados e crespos)
+- Meu Liso (controle de frizz e disciplina)
+- Tratamento Intensivo (reconstrução e nutrição)
+- Bomba (crescimento e fortalecimento)
+
+LINHAS REAIS DA FOREVER LISS:
+- Desmaia Cabelo (hidratação e controle de frizz)
+- Ácido Hialurônico (hidratação intensa)
+- Argan Oil (nutrição e brilho)
+- Professional Liss (alisamento e disciplina)
+- Cachos & Crespos (definição e hidratação)
+- Extreme Repair (reconstrução profunda)
+
 MARCAS BRASILEIRAS PROFISSIONAIS AUTORIZADAS:
 PREMIUM: Kérastase, Joico, Redken, Wella Professionals, Schwarzkopf Professional, Truss, L'Oréal Professionnel, Keune, Alfaparf Milano, Braé, Avlon, Sebastian, Senscience
 MÉDIA: Wella Invigo, Amend, Lowell, Itallian Hair Tech, Cadiveu Professional, Let Me Be Pro, Richée Professional, Inoar Profissional, Aquaflora, Unicaher, Aneethun
@@ -193,7 +207,31 @@ INSTRUÇÕES PARA MARCA FIXA "${fixedBrand}":
 - Liste SEMPRE: ${fixedBrand} [Linha] [Nome do Produto]
 - Exemplo correto: "${fixedBrand} Nutritive Bain Satin Shampoo"
 - Varie as LINHAS do ${fixedBrand} conforme o tratamento
-- Se ${fixedBrand} não tiver uma linha específica, use a linha mais próxima disponível da marca`
+- Se ${fixedBrand} não tiver uma linha específica, use a linha mais próxima disponível da marca
+
+EXEMPLO DE CRONOGRAMA CORRETO USANDO APENAS ${fixedBrand}:
+
+SEMANA 1 - Reconstrução:
+– Shampoo: ${fixedBrand} [Linha de Reconstrução] Shampoo
+– Máscara: ${fixedBrand} [Linha de Reconstrução] Máscara
+– Leave-in: ${fixedBrand} [Protetor Térmico]
+
+SEMANA 2 - Nutrição:
+– Shampoo: ${fixedBrand} [Linha Nutritiva] Shampoo
+– Máscara: ${fixedBrand} [Linha Nutritiva] Máscara
+– Óleo: ${fixedBrand} [Óleo/Finalizador]
+
+SEMANA 3 - Hidratação:
+– Shampoo: ${fixedBrand} [Linha Hidratante] Shampoo
+– Máscara: ${fixedBrand} [Linha Hidratante] Máscara
+– Leave-in: ${fixedBrand} [Leave-in Hidratante]
+
+SEMANA 4 - Nutrição:
+– Shampoo: ${fixedBrand} [Linha Nutritiva] Shampoo
+– Máscara: ${fixedBrand} [Linha Nutritiva] Máscara
+– Finalizador: ${fixedBrand} [Finalizador]
+
+REPETINDO: USE APENAS ${fixedBrand} EM TODAS AS 4 SEMANAS!`
   : `SEM MARCA ESPECÍFICA SELECIONADA:
      - OBRIGATÓRIO: Escolha marcas profissionais brasileiras reais
      - Liste SEMPRE o nome COMPLETO do produto com marca
@@ -254,6 +292,13 @@ ${fixedBrand ? `
 ⚠️ USE APENAS PRODUTOS ${fixedBrand} EM TODO O CRONOGRAMA!
 ⚠️ PROIBIDO USAR OUTRAS MARCAS!
 ════════════════════════════════════════════════════════════
+
+ANTES DE RESPONDER:
+1. Leia esta marca: ${fixedBrand}
+2. Memorize: USAR APENAS ${fixedBrand}
+3. Verifique: NO CRONOGRAMA, TODAS as 4 semanas devem ter APENAS ${fixedBrand}
+4. NÃO USE: Wella, Kérastase, Truss, Amend, Lowell, ou qualquer marca que NÃO seja ${fixedBrand}
+
 ` : ''}
 
 MODE: ${mode}
@@ -266,6 +311,14 @@ HEAT_USAGE: ${(anamnese.heatUsage || "")}
 SCALP_SENSITIVITY: ${anamnese.scalpSensitivity ? "YES" : "NO"}
 NOTES: ${(anamnese.professionalNotes || "")}
 IMAGE_ZONES: ${zones}
+
+${fixedBrand ? `
+════════════════════════════════════════════════════════════
+LEMBRETE CRÍTICO: Você DEVE usar APENAS ${fixedBrand}
+NÃO use Wella, Kérastase, ou qualquer outra marca!
+TODAS as 4 semanas = ${fixedBrand} produtos
+════════════════════════════════════════════════════════════
+` : ''}
 
 IMPORTANTE - FORMATO OBJETIVO E DIRETO:
 - Texto CONCISO e PROFISSIONAL
@@ -298,6 +351,16 @@ ALERTAS E RISCOS
 CONDUTA RECOMENDADA
 ────────────────────────────────
 [Protocolo de tratamento em 2-3 linhas diretas. Foque no essencial]
+
+${fixedBrand ? `
+════════════════════════════════════════════════════════════
+⚠️⚠️⚠️ ATENÇÃO CRÍTICA ⚠️⚠️⚠️
+MARCA SELECIONADA: ${fixedBrand}
+USE APENAS ${fixedBrand} NO CRONOGRAMA ABAIXO!
+NÃO USE: Wella, Kérastase, Truss, Amend, ou QUALQUER outra marca!
+USE SOMENTE: ${fixedBrand}
+════════════════════════════════════════════════════════════
+` : ''}
 
 CRONOGRAMA CAPILAR – 4 SEMANAS
 ────────────────────────────────
@@ -392,6 +455,10 @@ export async function analyzeCapillaryData(
   arsenal: ArsenalConfig,
   mode: UserMode
 ) {
+  // Debug: verificar se a marca está sendo passada
+  console.log('🔍 ARSENAL CONFIG:', JSON.stringify(arsenal, null, 2));
+  console.log('🔍 MARCA SELECIONADA:', arsenal?.fixedBrand || 'NENHUMA');
+  
   // 1) Compress images (client-side) to reduce payload drastically
   const compressedImages = await Promise.all(
     (images || []).map(async (img) => ({
@@ -403,6 +470,9 @@ export async function analyzeCapillaryData(
   // 2) Build prompt + system instruction
   const systemInstruction = buildSystemInstruction(arsenal);
   const prompt = buildPrompt(anamnese, compressedImages, arsenal, mode);
+  
+  // Debug: mostrar parte do prompt
+  console.log('🔍 INÍCIO DO PROMPT:', prompt.substring(0, 500));
 
   // 3) Build multipart content (text + inline images)
   const parts: any[] = [{ text: prompt }];
@@ -452,6 +522,24 @@ export async function analyzeCapillaryData(
 
   if (!text) {
     throw new Error("Empty diagnosis response from model.");
+  }
+
+  // Validação: verificar se a IA respeitou a marca selecionada
+  if (arsenal?.fixedBrand) {
+    const brandLower = arsenal.fixedBrand.toLowerCase();
+    const textLower = text.toLowerCase();
+    
+    // Procurar por outras marcas premium no texto (possíveis violações)
+    const otherBrands = ['wella', 'kérastase', 'kerastase', 'truss', 'loreal', 'joico', 'redken', 'schwarzkopf'];
+    const foundOtherBrand = otherBrands.find(b => 
+      b !== brandLower.replace(/\s+/g, '') && 
+      textLower.includes(b)
+    );
+    
+    if (foundOtherBrand) {
+      console.warn(`⚠️ ALERTA: IA usou marca ${foundOtherBrand} mas deveria usar apenas ${arsenal.fixedBrand}`);
+      console.warn('Texto retornado:', text.substring(0, 1000));
+    }
   }
 
   return text;
