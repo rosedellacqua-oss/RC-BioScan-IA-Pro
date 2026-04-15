@@ -9,7 +9,7 @@ import {
 } from './types';
 import { analyzeCapillaryData } from './services/analysisService';
 import { BRAND_BLOCKS, CAPILLARY_ZONES } from './data/brandsCatalog';
-import CameraPage from './src/pages/CameraPage';
+import { CameraManager, type CapturedFrame } from './components/camera';
 
 // UI Components
 const Header: React.FC = () => (
@@ -116,6 +116,7 @@ const App: React.FC = () => {
   
   const [report, setReport] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showCamera, setShowCamera] = useState<boolean>(false);
 
   const startAnalysis = async () => {
     setIsLoading(true);
@@ -159,6 +160,22 @@ const App: React.FC = () => {
   const removeImage = (id: string) => {
     setImages(prev => prev.filter(img => img.id !== id));
   };
+
+  const handleCameraCapture = useCallback((frame: CapturedFrame) => {
+    setImages(prev => {
+      if (prev.length >= 10) {
+        alert("Máximo de 10 imagens permitido.");
+        return prev;
+      }
+      const objectUrl = URL.createObjectURL(frame.blob);
+      return [...prev, {
+        id: Math.random().toString(36).substr(2, 9),
+        url: objectUrl,
+        base64: frame.base64,
+        zone: 'Extra'
+      }];
+    });
+  }, []);
 
   const updateImageZone = (id: string, zone: string) => {
     setImages(prev => prev.map(img => img.id === id ? { ...img, zone } : img));
@@ -385,6 +402,38 @@ const App: React.FC = () => {
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold gold-text">Mapeamento Multi-Zonas</h2>
               <span className="text-slate-500 text-sm font-bold">{images.length}/10 Imagens</span>
+            </div>
+
+            {/* Live capture toggle */}
+            <div className="space-y-3">
+              <button
+                type="button"
+                onClick={() => setShowCamera(v => !v)}
+                className="w-full flex items-center justify-between gap-3 p-4 bg-slate-900/40 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-colors"
+              >
+                <span className="flex items-center gap-3">
+                  <span className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400">
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </span>
+                  <span className="text-left">
+                    <span className="block text-sm font-bold">Capturar ao vivo</span>
+                    <span className="block text-xs text-slate-500">
+                      Câmera nativa, webcam USB, microscópio UVC ou dispositivo WiFi
+                    </span>
+                  </span>
+                </span>
+                <span className="text-amber-400 text-sm font-bold">
+                  {showCamera ? 'Fechar' : 'Abrir'}
+                </span>
+              </button>
+              {showCamera && (
+                <div className="glass rounded-2xl p-4 border border-white/5">
+                  <CameraManager onCapture={handleCameraCapture} autoUpload={true} />
+                </div>
+              )}
             </div>
 
             {images.length === 0 ? (
