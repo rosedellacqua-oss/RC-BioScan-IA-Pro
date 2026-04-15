@@ -25,6 +25,20 @@ function buildBase(ip: string): string {
 }
 
 /**
+ * In production the page is served over HTTPS but WiFi devices only speak
+ * HTTP, which the browser blocks as Mixed Content. Route those requests
+ * through `/api/proxy-stream` so they share the page's HTTPS origin.
+ *
+ * In dev (HTTP) we hit the device directly to keep latency low and avoid
+ * needing the serverless function locally.
+ */
+function proxify(rawUrl: string): string {
+  if (typeof window === 'undefined') return rawUrl;
+  if (window.location.protocol !== 'https:') return rawUrl;
+  return `/api/proxy-stream?url=${encodeURIComponent(rawUrl)}`;
+}
+
+/**
  * Probe a candidate URL using `<img>` rather than `fetch`/HEAD because:
  *  - `<img>` doesn't enforce CORS for the load event itself;
  *  - many MJPEG endpoints return `multipart/x-mixed-replace` which `fetch`
@@ -100,7 +114,10 @@ export default function WifiDeviceInput({ onConnect }: WifiDeviceInputProps) {
     for (const path of PATHS) {
       if (runCtrl.signal.aborted) return;
 
-      const url = `${base}${path}`;
+      const rawUrl = `${base}${path}`;
+      // Probe the same URL the consumer will end up rendering, so a successful
+      // probe in production guarantees the proxy path also works.
+      const url = proxify(rawUrl);
       setCurrentPath(path);
 
       // Per-path timeout: independent controller chained to the run-level one.
