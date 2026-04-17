@@ -1,6 +1,6 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 
-export type PreviewMode = 'stream' | 'mjpeg';
+export type PreviewMode = 'stream' | 'mjpeg' | 'snapshot';
 
 export interface CameraPreviewProps {
   mode: PreviewMode;
@@ -14,6 +14,8 @@ export interface CameraPreviewProps {
 export interface CameraPreviewHandle {
   captureFrame: (quality?: number) => Promise<Blob | null>;
 }
+
+const SNAPSHOT_REFRESH_MS = 500;
 
 export const CameraPreview = forwardRef<CameraPreviewHandle, CameraPreviewProps>(
   function CameraPreview(
@@ -29,13 +31,27 @@ export const CameraPreview = forwardRef<CameraPreviewHandle, CameraPreviewProps>
       if (mode !== 'stream' || !video) return;
       if (stream) {
         video.srcObject = stream;
-        video.play().catch(() => {
-          /* autoplay can fail on some browsers; user gesture may be required */
-        });
+        video.play().catch(() => {});
       } else {
         video.srcObject = null;
       }
     }, [mode, stream]);
+
+    // Snapshot auto-refresh: reload the image every SNAPSHOT_REFRESH_MS
+    useEffect(() => {
+      if (mode !== 'snapshot' || !mjpegUrl) return;
+      const img = imgRef.current;
+      if (!img) return;
+
+      const baseUrl = mjpegUrl.replace(/[?&]_t=\d+$/, '');
+
+      const interval = setInterval(() => {
+        const sep = baseUrl.includes('?') ? '&' : '?';
+        img.src = `${baseUrl}${sep}_t=${Date.now()}`;
+      }, SNAPSHOT_REFRESH_MS);
+
+      return () => clearInterval(interval);
+    }, [mode, mjpegUrl]);
 
     useImperativeHandle(
       ref,
@@ -43,16 +59,12 @@ export const CameraPreview = forwardRef<CameraPreviewHandle, CameraPreviewProps>
         captureFrame: async (quality: number = 0.92): Promise<Blob | null> => {
           try {
             const canvas = document.createElement('canvas');
-            let sourceWidth = 0;
-            let sourceHeight = 0;
 
             if (mode === 'stream') {
               const video = videoRef.current;
               if (!video || video.readyState < 2) return null;
-              sourceWidth = video.videoWidth;
-              sourceHeight = video.videoHeight;
-              canvas.width = sourceWidth;
-              canvas.height = sourceHeight;
+              canvas.width = video.videoWidth;
+              canvas.height = video.videoHeight;
               const ctx = canvas.getContext('2d');
               if (!ctx) return null;
               if (mirrored) {
@@ -63,10 +75,8 @@ export const CameraPreview = forwardRef<CameraPreviewHandle, CameraPreviewProps>
             } else {
               const img = imgRef.current;
               if (!img || !img.complete || !img.naturalWidth) return null;
-              sourceWidth = img.naturalWidth;
-              sourceHeight = img.naturalHeight;
-              canvas.width = sourceWidth;
-              canvas.height = sourceHeight;
+              canvas.width = img.naturalWidth;
+              canvas.height = img.naturalHeight;
               const ctx = canvas.getContext('2d');
               if (!ctx) return null;
               ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
@@ -84,6 +94,8 @@ export const CameraPreview = forwardRef<CameraPreviewHandle, CameraPreviewProps>
       [mode, mirrored, onError]
     );
 
+    const showImg = mode === 'mjpeg' || mode === 'snapshot';
+
     return (
       <div className={`relative overflow-hidden rounded-2xl bg-black ${className}`}>
         {mode === 'stream' ? (
@@ -95,20 +107,19 @@ export const CameraPreview = forwardRef<CameraPreviewHandle, CameraPreviewProps>
             className="w-full h-full object-contain"
             style={mirrored ? { transform: 'scaleX(-1)' } : undefined}
           />
-        ) : (
+        ) : showImg ? (
           <img
             ref={imgRef}
             src={mjpegUrl || ''}
-            alt="MJPEG Stream"
+            alt={mode === 'snapshot' ? 'Snapshot' : 'MJPEG Stream'}
             crossOrigin="anonymous"
             onError={() =>
-              onError?.('Falha ao carregar o stream MJPEG. Verifique o IP e o caminho.')
+              onError?.('Falha ao carregar o stream. Verifique o IP e as configurações de rede.')
             }
             className="w-full h-full object-contain"
           />
-        )}
-        {/* Scanner line overlay for the "bio-scanner" feel */}
-        <div className="scanner-line pointer-events-none"></div>
+        ) : null}
+        <div className="scanner-line pointer-events-none" />
       </div>
     );
   }
