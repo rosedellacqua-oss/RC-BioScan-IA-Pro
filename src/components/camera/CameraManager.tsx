@@ -30,14 +30,25 @@ function badgeFor(
   }
 }
 
+export interface CameraManagerProps {
+  /**
+   * If provided, the captured JPEG Blob is handed to this callback instead of
+   * being posted to /api/upload. The caller owns the lifecycle from here on
+   * (persistence, thumbnail, etc.). Useful when the camera is embedded inside
+   * another flow (e.g. the IMAGES step of the anamnese wizard).
+   */
+  onCapture?: (blob: Blob) => void;
+}
+
 /**
  * High-level orchestrator:
  *  1. Requests camera permission on mount.
  *  2. Lets the user choose between detected devices (or the WiFi sentinel).
  *  3. Renders the live preview and the capture button.
- *  4. On capture: snapshots a JPEG frame, uploads it, shows a thumbnail.
+ *  4. On capture: snapshots a JPEG frame, uploads it (or delegates via
+ *     `onCapture`), and shows a thumbnail.
  */
-export default function CameraManager() {
+export default function CameraManager({ onCapture }: CameraManagerProps = {}) {
   const camera = useCamera();
   const detection = useDeviceDetection(camera.devices);
   const uploader = useUpload();
@@ -108,6 +119,11 @@ export default function CameraManager() {
 
     if (capturedThumb) URL.revokeObjectURL(capturedThumb);
     setCapturedThumb(URL.createObjectURL(blob));
+
+    if (onCapture) {
+      onCapture(blob);
+      return;
+    }
 
     const activeDevice = detection.classifiedDevices.find(
       (d) => d.deviceId === activeDeviceId
@@ -198,14 +214,18 @@ export default function CameraManager() {
               alt="captura"
               className="w-16 h-16 object-cover rounded-lg border border-amber-400/40"
             />
-            {uploader.result && (
-              <div className="text-xs text-emerald-300">
-                ✓ Enviado
-                <br />
-                <code className="text-emerald-200 text-[10px]">
-                  {uploader.result.id.slice(0, 8)}
-                </code>
-              </div>
+            {onCapture ? (
+              <div className="text-xs text-emerald-300">✓ Capturado</div>
+            ) : (
+              uploader.result && (
+                <div className="text-xs text-emerald-300">
+                  ✓ Enviado
+                  <br />
+                  <code className="text-emerald-200 text-[10px]">
+                    {uploader.result.id.slice(0, 8)}
+                  </code>
+                </div>
+              )
             )}
           </div>
         )}
