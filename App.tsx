@@ -10,6 +10,7 @@ import {
 import { analyzeCapillaryData } from './services/analysisService';
 import { BRAND_BLOCKS, CAPILLARY_ZONES } from './data/brandsCatalog';
 import CameraPage from './src/pages/CameraPage';
+import CameraManager from './src/components/camera/CameraManager';
 
 // UI Components
 const Header: React.FC = () => (
@@ -108,6 +109,7 @@ const App: React.FC = () => {
   });
   
   const [images, setImages] = useState<CapillaryImage[]>([]);
+  const [cameraOpen, setCameraOpen] = useState(false);
   const [arsenal, setArsenal] = useState<ArsenalConfig>({
     mode: RecommendationMode.LIBRARY,
     allowedLevels: ['PREMIUM'],
@@ -155,6 +157,24 @@ const App: React.FC = () => {
       reader.readAsDataURL(file);
     });
   };
+
+  const handleCameraCapture = useCallback((blob: Blob) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64 = reader.result as string;
+      const url = URL.createObjectURL(blob);
+      const id = Math.random().toString(36).substr(2, 9);
+      setImages(curr => {
+        if (curr.length >= 10) {
+          URL.revokeObjectURL(url);
+          alert("Máximo de 10 imagens permitido.");
+          return curr;
+        }
+        return [...curr, { id, url, base64, zone: 'Extra' }];
+      });
+    };
+    reader.readAsDataURL(blob);
+  }, []);
 
   const removeImage = (id: string) => {
     setImages(prev => prev.filter(img => img.id !== id));
@@ -386,6 +406,26 @@ const App: React.FC = () => {
               <h2 className="text-2xl font-bold gold-text">Mapeamento Multi-Zonas</h2>
               <span className="text-slate-500 text-sm font-bold">{images.length}/10 Imagens</span>
             </div>
+
+            <div className="flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={() => setCameraOpen(open => !open)}
+                disabled={images.length >= 10}
+                className={`px-4 py-2 rounded-xl text-sm font-bold border transition-colors ${cameraOpen ? 'bg-amber-500 text-white border-amber-400' : 'bg-slate-900 text-amber-300 border-amber-400/30 hover:border-amber-300/60'} disabled:opacity-40 disabled:cursor-not-allowed`}
+              >
+                {cameraOpen ? 'Fechar câmera' : '📷 Capturar com câmera'}
+              </button>
+              <span className="text-xs text-slate-500 self-center">
+                USB, WiFi ou câmera nativa — a foto capturada entra direto nesta lista.
+              </span>
+            </div>
+
+            {cameraOpen && (
+              <div className="rounded-3xl border border-amber-400/20 bg-slate-900/30 p-2">
+                <CameraManager onCapture={handleCameraCapture} />
+              </div>
+            )}
 
             {images.length === 0 ? (
               <div className="border-2 border-dashed border-slate-800 rounded-3xl py-20 flex flex-col items-center gap-4 bg-slate-900/20">
