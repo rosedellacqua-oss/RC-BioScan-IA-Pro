@@ -7,10 +7,10 @@ import {
   type DeviceKind,
 } from '../../hooks/useDeviceDetection';
 import { useUpload } from '../../hooks/useUpload';
-import { CameraPreview, type CameraPreviewHandle } from './CameraPreview';
+import { CameraPreview, type CameraPreviewHandle, type PreviewMode } from './CameraPreview';
 import { CaptureButton } from './CaptureButton';
 import { DeviceSelector, WIFI_DEVICE_ID } from './DeviceSelector';
-import { WifiDeviceInput } from './WifiDeviceInput';
+import { WifiDeviceInput, type WifiStreamKind } from './WifiDeviceInput';
 
 export interface CapturedFrame {
   blob: Blob;
@@ -64,6 +64,7 @@ export const CameraManager: React.FC<CameraManagerProps> = ({
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [wifiUrl, setWifiUrl] = useState<string | null>(null);
+  const [wifiKind, setWifiKind] = useState<WifiStreamKind>('mjpeg');
   const [captureMsg, setCaptureMsg] = useState<string | null>(null);
   const previewRef = useRef<CameraPreviewHandle | null>(null);
 
@@ -115,9 +116,10 @@ export const CameraManager: React.FC<CameraManagerProps> = ({
   );
 
   const handleWifiConnect = useCallback(
-    (url: string) => {
+    (url: string, kind: WifiStreamKind = 'mjpeg') => {
       stopStream();
       setWifiUrl(url);
+      setWifiKind(kind);
       setSelectedId(WIFI_DEVICE_ID);
     },
     [stopStream]
@@ -136,7 +138,9 @@ export const CameraManager: React.FC<CameraManagerProps> = ({
     return picked?.kind || 'unknown';
   }, [classified, selectedId]);
 
-  const previewMode = selectedId === WIFI_DEVICE_ID ? 'mjpeg' : 'stream';
+  const previewMode: PreviewMode = selectedId === WIFI_DEVICE_ID
+    ? (wifiKind === 'snapshot' ? 'snapshot' : 'mjpeg')
+    : 'stream';
   const mirrored = activeKind === 'mobile_front';
   const hasActiveSource =
     (previewMode === 'stream' && !!stream) || (previewMode === 'mjpeg' && !!wifiUrl);

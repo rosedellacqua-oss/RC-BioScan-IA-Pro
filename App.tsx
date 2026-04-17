@@ -23,14 +23,6 @@ const Header: React.FC = () => (
         <p className="text-[10px] uppercase tracking-widest text-blue-400 font-semibold">Mapeamento Capilar Inteligente</p>
       </div>
     </div>
-    <a
-      href="#/camera"
-      className="inline-flex items-center gap-2 px-3 py-2 rounded-full border border-amber-400/30 text-amber-200 hover:text-amber-100 hover:border-amber-300/60 text-xs font-semibold transition-colors"
-      title="Captura de imagem (USB / WiFi / nativo)"
-    >
-      <span aria-hidden="true">📷</span>
-      <span>Câmera</span>
-    </a>
   </header>
 );
 
@@ -77,20 +69,7 @@ const ScannerIcon: React.FC<{ className?: string }> = ({ className }) => (
   </svg>
 );
 
-// Hash-based pseudo-routing (project has no router): `#/camera` mounts the
-// standalone capture page without disturbing the anamnese state machine.
-const readHash = (): string =>
-  typeof window === 'undefined' ? '' : window.location.hash;
-
 const App: React.FC = () => {
-  // Hash-routing hooks — declared together with the rest so React's
-  // rules-of-hooks remain satisfied (all hooks run unconditionally).
-  const [route, setRoute] = useState<string>(readHash);
-  useEffect(() => {
-    const onHashChange = () => setRoute(readHash());
-    window.addEventListener('hashchange', onHashChange);
-    return () => window.removeEventListener('hashchange', onHashChange);
-  }, []);
 
   const [step, setStep] = useState<AppStep>(AppStep.WELCOME);
   const [mode, setMode] = useState<UserMode>(UserMode.CLIENTE);
@@ -190,12 +169,6 @@ const App: React.FC = () => {
     const text = encodeURIComponent(report);
     window.open(`https://wa.me/5511921022430?text=${text}`, '_blank');
   };
-
-  // Hash-route short-circuit — placed after all hook declarations so hook
-  // ordering stays stable across renders.
-  if (route === '#/camera') {
-    return <CameraPage />;
-  }
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-950">
