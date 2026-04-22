@@ -24,6 +24,18 @@ const EXTERNAL_CAMERA_PATTERNS = [
   /\busb\b/i,
   /\buvc\b/i,
   /endoscop/i,
+  /\botg\b/i,
+  /\bexternal\b/i,
+  /\bcamera\s*\d/i,
+  /dino[\s-]?lite/i,
+  /supereyes/i,
+  /andonstar/i,
+  /celestron/i,
+  /plugable/i,
+  /jiusion/i,
+  /bysameyee/i,
+  /video\s*capture/i,
+  /capture\s*card/i,
 ];
 
 function classifyDevice(
@@ -74,7 +86,29 @@ export function useDeviceDetection(
         };
       });
 
-    // Sort by priority, then label alphabetically
+    // On mobile, if there are 3+ cameras and some are "mobile_back",
+    // the extras are likely OTG/USB devices — reclassify them.
+    if (isMobile) {
+      const backCount = classified.filter(d => d.kind === 'mobile_back').length;
+      if (backCount > 1) {
+        let promoted = false;
+        for (const d of classified) {
+          if (d.kind === 'mobile_back' && !promoted) {
+            promoted = true;
+            continue;
+          }
+          if (d.kind === 'mobile_back') {
+            d.kind = 'usb_microscope';
+            d.priority = 1;
+            d.icon = '🔬';
+            d.label = d.label === 'Câmera sem rótulo'
+              ? 'Dispositivo externo (OTG/USB)'
+              : d.label;
+          }
+        }
+      }
+    }
+
     classified.sort((a, b) => {
       if (a.priority !== b.priority) return a.priority - b.priority;
       return a.label.localeCompare(b.label);

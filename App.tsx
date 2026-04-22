@@ -394,7 +394,7 @@ const App: React.FC = () => {
                   <span className="text-left">
                     <span className="block text-sm font-bold">Capturar ao vivo</span>
                     <span className="block text-xs text-slate-500">
-                      Câmera nativa, webcam USB, microscópio UVC ou dispositivo WiFi
+                      Câmera nativa, webcam USB, cabo OTG, microscópio UVC ou WiFi
                     </span>
                   </span>
                 </span>
@@ -442,6 +442,14 @@ const App: React.FC = () => {
                         {CAPILLARY_ZONES.map(z => <option key={z} value={z}>{z}</option>)}
                       </select>
                     </div>
+                    <a
+                      href={img.base64 || img.url}
+                      download={`bioscan-${img.zone.toLowerCase().replace(/\s+/g,'-')}-${img.id}.jpg`}
+                      className="p-2 text-amber-500/50 hover:text-amber-400 transition-colors"
+                      title="Baixar imagem"
+                    >
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                    </a>
                     <button onClick={() => removeImage(img.id)} className="p-2 text-red-500/50 hover:text-red-500 transition-colors">
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                     </button>
@@ -457,10 +465,30 @@ const App: React.FC = () => {
               </div>
             )}
 
+            {images.length > 0 && (
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => {
+                    images.forEach((img, i) => {
+                      const a = document.createElement('a');
+                      a.href = img.base64 || img.url;
+                      a.download = `bioscan-${img.zone.toLowerCase().replace(/\s+/g,'-')}-${img.id}.jpg`;
+                      setTimeout(() => a.click(), i * 200);
+                    });
+                  }}
+                  className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl text-xs font-bold text-amber-200 transition-colors"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                  Baixar todas ({images.length})
+                </button>
+              </div>
+            )}
+
             <div className="pt-4 flex justify-between">
               <button onClick={() => setStep(AppStep.ANAMNESE)} className="px-8 py-4 bg-slate-900 rounded-2xl font-bold text-slate-500 border border-slate-800">Voltar</button>
-              <button 
-                onClick={() => setStep(AppStep.ARSENAL)} 
+              <button
+                onClick={() => setStep(AppStep.ARSENAL)}
                 disabled={images.length === 0}
                 className="px-8 py-4 gold-gradient rounded-2xl font-bold text-white shadow-xl shadow-orange-500/20 disabled:opacity-50"
               >
