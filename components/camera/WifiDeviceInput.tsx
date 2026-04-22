@@ -472,43 +472,80 @@ export const WifiDeviceInput: React.FC<WifiDeviceInputProps> = ({
         </div>
       )}
 
-      {/* HTTPS / Mixed Content guide */}
-      {isSecure() && !connected && (
+      {/* Quick-connect: common scanner IPs */}
+      {!connected && !busy && (
+        <div className="border-t border-slate-800 pt-3 space-y-2">
+          <p className="text-[10px] text-slate-500 font-bold uppercase">IPs comuns de scanners WiFi</p>
+          <div className="flex flex-wrap gap-1.5">
+            {['192.168.10.1', '192.168.1.1', '10.10.10.1', '192.168.0.1', '172.16.0.1'].map(scannerIp => (
+              <button
+                key={scannerIp}
+                onClick={() => setIp(scannerIp)}
+                className="px-2.5 py-1 bg-slate-800/60 hover:bg-slate-700 rounded text-[11px] text-slate-400 hover:text-amber-200 transition-colors"
+              >
+                {scannerIp}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Guide */}
+      {!connected && (
         <div className="border-t border-slate-800 pt-3">
           <button
             onClick={() => setShowGuide(g => !g)}
             className="text-xs text-amber-400 hover:text-amber-300 flex items-center gap-1 font-bold"
           >
             <span>{showGuide ? '▾' : '▸'}</span>
-            {showGuide ? 'Ocultar guia HTTPS' : '⚠ Problemas com conexão? Guia HTTPS'}
+            {showGuide ? 'Ocultar guia de conexão' : '⚠ Como conectar o scanner WiFi?'}
           </button>
 
           {showGuide && (
             <div className="mt-2 p-3 bg-amber-500/5 border border-amber-500/20 rounded-lg space-y-2 text-xs text-slate-300">
               <p className="font-bold text-amber-300">
-                Por que o scanner WiFi não conecta em HTTPS?
+                Como funciona o scanner WiFi capilar
               </p>
               <p>
-                Este site é servido via HTTPS, mas scanners/microscópios WiFi usam HTTP.
-                O navegador bloqueia essa mistura por segurança (Mixed Content).
+                Microscópios WiFi (Max-View, Dino-Lite WiFi, etc.) criam a
+                <strong className="text-slate-200"> própria rede WiFi</strong>.
+                Você conecta seu celular ou computador nessa rede para acessar a imagem.
               </p>
-              <p className="font-bold text-amber-200 mt-2">Solução para Chrome/Edge:</p>
+
+              <p className="font-bold text-amber-200 mt-2">Passo a passo:</p>
               <ol className="list-decimal list-inside space-y-1 text-slate-400">
-                <li>Clique no <strong className="text-slate-200">ícone de cadeado</strong> (ou &quot;Tune&quot;) na barra de endereço</li>
-                <li>Selecione <strong className="text-slate-200">Configurações do site</strong></li>
-                <li>Procure <strong className="text-slate-200">Conteúdo inseguro</strong> (ou &quot;Insecure content&quot;)</li>
-                <li>Mude para <strong className="text-slate-200">Permitir</strong></li>
-                <li>Recarregue a página e tente conectar novamente</li>
+                <li><strong className="text-slate-200">Abra este site</strong> no navegador (enquanto ainda tem internet)</li>
+                <li><strong className="text-slate-200">Ligue o scanner</strong> e aguarde a rede WiFi dele aparecer</li>
+                <li>Vá nas <strong className="text-slate-200">Configurações de WiFi</strong> do celular/PC e conecte na rede do scanner (ex: &quot;MaxView_XXXX&quot;, &quot;WiFi_Microscope&quot;)</li>
+                <li>Volte para esta página (ela já está carregada) e digite o IP do scanner (geralmente <strong className="text-slate-200">192.168.10.1</strong>) ou clique em um dos IPs comuns acima</li>
+                <li>Clique em <strong className="text-slate-200">Conectar</strong></li>
               </ol>
-              <p className="font-bold text-amber-200 mt-2">Solução para Firefox:</p>
+
+              {isSecure() && (
+                <>
+                  <p className="font-bold text-amber-200 mt-2">Configuração necessária no navegador (HTTPS):</p>
+                  <p className="text-slate-400">
+                    Este site usa HTTPS, mas o scanner serve HTTP. O navegador pode bloquear.
+                  </p>
+                  <p className="text-slate-400 font-bold">Chrome/Edge:</p>
+                  <ol className="list-decimal list-inside space-y-1 text-slate-400">
+                    <li>Clique no <strong className="text-slate-200">ícone de cadeado</strong> na barra de endereço</li>
+                    <li>Selecione <strong className="text-slate-200">Configurações do site</strong></li>
+                    <li><strong className="text-slate-200">Conteúdo inseguro</strong> → Permitir</li>
+                    <li>Recarregue a página</li>
+                  </ol>
+                  <p className="text-slate-400 font-bold mt-1">Firefox:</p>
+                  <p className="text-slate-400">
+                    Clique no cadeado → desative a proteção para este site.
+                  </p>
+                </>
+              )}
+
+              <p className="font-bold text-amber-200 mt-2">Alternativa: cabo OTG (USB)</p>
               <p className="text-slate-400">
-                Firefox geralmente permite imagens HTTP em páginas HTTPS.
-                Se não funcionar, clique no cadeado → desative a proteção para este site.
-              </p>
-              <p className="font-bold text-amber-200 mt-2">Dica geral:</p>
-              <p className="text-slate-400">
-                Certifique-se de que o celular/computador está na <strong className="text-slate-200">mesma rede WiFi</strong> do scanner.
-                O IP do scanner normalmente aparece no app do microscópio ou nas configurações do dispositivo.
+                Se o scanner tem entrada USB, conecte via <strong className="text-slate-200">cabo OTG</strong> no celular
+                ou direto no computador. O dispositivo aparece automaticamente na lista de câmeras acima,
+                sem precisar de WiFi.
               </p>
             </div>
           )}
