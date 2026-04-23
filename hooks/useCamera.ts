@@ -40,10 +40,21 @@ export function useCamera(): UseCameraResult {
       return;
     }
     try {
+      // Force a fresh getUserMedia to trigger USB/OTG permission dialogs,
+      // then re-enumerate so new devices show up with labels.
+      const temp = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+      temp.getTracks().forEach((t) => t.stop());
       const list = await navigator.mediaDevices.enumerateDevices();
       setDevices(list.filter((d) => d.kind === 'videoinput'));
+      setPermission('granted');
     } catch (e: any) {
-      setError(e?.message || 'Falha ao listar dispositivos');
+      // If getUserMedia fails, still try to enumerate what we can.
+      try {
+        const list = await navigator.mediaDevices.enumerateDevices();
+        setDevices(list.filter((d) => d.kind === 'videoinput'));
+      } catch {
+        setError(e?.message || 'Falha ao listar dispositivos');
+      }
     }
   }, []);
 
