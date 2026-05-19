@@ -16,7 +16,7 @@ export const BRAND_BLOCKS = {
   ],
   BOTANICA: [
     'Grandha Ativos Bio', 'Amazônico Care', 'Barba Urbana', 
-    'B.URB Mencare', 'Don Alcides'
+    'Burb', 'Don Alcides'
   ]
 };
 
