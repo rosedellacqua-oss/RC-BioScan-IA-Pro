@@ -15,7 +15,7 @@ export const BRAND_BLOCKS = {
     'Felps Professional', 'Lola Cosmetics'
   ],
   BOTANICA: [
-    'Grendha Ativos Bio', 'Amazônica Care', 'Arvências Cosméticos Naturais', 
+    'Grandha Ativos Bio', 'Amazônica Care', 'Arvências Cosméticos Naturais', 
     'Ativo Natural', 'Ato Fito Cosméticos'
   ]
 };
