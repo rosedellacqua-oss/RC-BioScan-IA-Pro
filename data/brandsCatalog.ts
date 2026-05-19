@@ -23,7 +23,7 @@ export const BRAND_BLOCKS = {
 export const CAPILLARY_ZONES = [
   'Frontal', 'Têmporas / Laterais', 'Topo / Vértice', 'Coroa', 
   'Nuca / Occipital', 'Comprimento (meio)', 'Pontas', 
-  'Couro cabeludo 1', 'Couro cabeludo 2', 'Extra'
+  'Couro cabeludo 1', 'Couro cabeludo 2', 'Barba'
 ];
 
 // Catálogo de produtos reais brasileiros (uso profissional)
