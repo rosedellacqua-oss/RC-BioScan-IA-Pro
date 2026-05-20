@@ -127,9 +127,9 @@ export const REAL_PRODUCTS_CATALOG = {
   COMBOS_LOWELL: {
     COMPLEX_CARE: {
       tipo: 'Reconstrução',
-      shampoo: 'Lowell Complex Care Shampoo Reconstrutor',
-      mascara: 'Lowell Complex Care Máscara Reconstrutora',
-      ampola: 'Lowell Banho de Verniz Ampola'
+      shampoo: 'Lowell protect Care Shampoo nutritivo',
+      mascara: 'Lowell protect Care Máscara ',
+      leavein: 'Lowell leve-in equilibrante mirtilo'
     },
     PRACAXI: {
       tipo: 'Hidratação',
